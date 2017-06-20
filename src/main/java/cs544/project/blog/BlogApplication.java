@@ -5,26 +5,36 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import cs544.project.blog.service.CommentService;
+import cs544.project.blog.service.PersonService;
+import cs544.project.blog.service.PostService;
+import cs544.project.blog.service.UserService;
+
 
 
 @SpringBootApplication
-public class CoffeShopApplication {
+public class BlogApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CoffeShopApplication.class, args);
-	}
-	/*@Bean
-	public ProductService pService(){
-		return new ProductService();
+		SpringApplication.run(BlogApplication.class, args);
 	}
 	@Bean
-	public PersonService perService(){
+	public PersonService pService(){
 		return new PersonService();
 	}
 	@Bean
-	public OrderService oService(){
-		return new OrderService();
-	}*/
+	public CommentService perService(){
+		return new CommentService();
+	}
+	@Bean
+	public PostService oService(){
+		return new PostService();
+	}
+	
+	@Bean
+	public UserService uService(){
+		return new UserService();
+	}
 	
 	@Bean(name = "dataSource")
 	public DriverManagerDataSource dataSource() {

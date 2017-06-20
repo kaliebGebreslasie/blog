@@ -1,4 +1,4 @@
-package cs544.project.blog.controller;
+/*package cs544.project.blog.controller;
 
 import java.security.Principal;
 
@@ -9,27 +9,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import cs544.project.blog.domain.Person;
+import cs544.project.blog.domain.Post;
+import cs544.project.blog.service.PostService;
 
 
 
 @Controller
 public class HomeController {
 	@Autowired
-//	private PersonService perService;
+	private PostService postService;
 	@GetMapping({"/index", "/home","/"})
-	public String homePage() {
-		return "products";
+	public String homePage(Model model) {
+		model.addAttribute("posts",postService.getAll());
+		return "index";
 	}
-/*	@GetMapping({ "/admin"})
-	public String adminPage(Model model,Principal p,HttpServletRequest request) {
-		
-		//model.addAttribute("person", perService.findByEmail(p.getName()).get(0));
-		request.getSession().setAttribute("user", perService.findByEmail(p.getName()).get(0));
-		return "admin";
+	@GetMapping("/post/{id}")
+	public String readPost(@PathVariable long id, Model model){
+		model.addAttribute("post", postService.getById(id));
+		return "blogpost";
 	}
+	
+	@GetMapping("/logout")
+	public String logout(){
+		return "index";
+	}
+	@GetMapping("/addPost")
+	public String newPost(){
+		return "addPost";
+	}
+	
+	
+@PostMapping({"/addPost"})
+public String addPost(Post post){
+	
+	postService.save(post);
+	
+	return "redirect:/posts";
+	
+}
 
+
+
+	
 	@GetMapping({"/secure"})
 	public String securePage() {
 		return "secure";
@@ -49,4 +76,5 @@ System.out.println("hellooooooooooooooooooo");
 		public String registerPage() {
 			return "home";
 		}
-*/}
+}
+*/

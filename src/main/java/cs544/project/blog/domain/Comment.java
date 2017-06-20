@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Comment {
 	@Id
@@ -16,20 +18,21 @@ public class Comment {
 	@Temporal(TemporalType.DATE)
 	private Date dateupdated;
 	@ManyToOne
+	@JsonIgnore
 	private Post post;
+	@JsonIgnore
 	@ManyToOne
 	private Person person;
 	
 	public Comment() {
 	}
 
-	public Comment(long id, String content, Date datecreated, Date dateupdated, Post post, Person person) {
+	public Comment( String content, Date datecreated, Date dateupdated, Post post, Person person) {
 		super();
-		this.id = id;
 		this.content = content;
 		this.datecreated = datecreated;
 		this.dateupdated = dateupdated;
-		this.post = post;
+		this.post=post;
 		this.person = person;
 	}
 

@@ -1,31 +1,37 @@
 package cs544.project.blog.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
 public class Person {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
 	private String email;
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-	private List<Comment> comments;
+	private List<Comment> comments=new ArrayList<>();
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-	private List<Post> posts;
+	private List<Post> posts=new ArrayList<>();
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private User user;
 	
 	public Person() {
 	}
 
-	public Person(long id, String name, String email, List<Comment> comments, List<Post> posts) {
+	public Person( String name, String email, List<Comment> comments, List<Post> posts,User user) {
 		super();
-		this.id = id;
+
 		this.name = name;
 		this.email = email;
 		this.comments = comments;
 		this.posts = posts;
+	this.user=user;
 	}
 
 	public long getId() {
@@ -67,4 +73,19 @@ public class Person {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+	public void addPost(Post post){
+		this.posts.add(post);
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
+	
+	
 }

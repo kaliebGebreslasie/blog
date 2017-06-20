@@ -9,38 +9,38 @@ import org.springframework.transaction.annotation.*;
 import cs544.project.blog.domain.Person;
 import cs544.project.blog.domain.User;
 import cs544.project.blog.repository.PersonRepository;
+import cs544.project.blog.repository.UserRepository;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
-public class PersonService {
+public class UserService {
 	@Autowired
-	private PersonRepository personRepository;
+	private UserRepository userRepository;
 	
-	public Person getById(long id){
-		return personRepository.findOne(id);
+	public User getById(long id){
+		return userRepository.findOne(id);
 	}
 	
-	public List<Person> getAll(){
-		return personRepository.findAll();
+	public List<User> getAll(){
+		return userRepository.findAll();
 	}
 	
-	public Person save(Person person){
-		return personRepository.save(person);
+	public User save(User user){
+		return userRepository.save(user);
 	}
 	
 	public void delete(long id){
-		personRepository.delete(id);
+		userRepository.delete(id);
 	}
 	
 	public long count(){
-		return personRepository.count();
+		return userRepository.count();
 	}
 	
 	public boolean exists(long id){
-		return personRepository.exists(id);
+		return userRepository.exists(id);
 	}
-	
-	public Person getByUser(User user ){
-	return personRepository.findPostByUser(user);
+	public User getByUsername(String username){
+		return userRepository.findUserByUsername(username);
 	}
 }

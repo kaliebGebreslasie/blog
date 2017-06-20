@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import cs544.project.blog.domain.Comment;
+import cs544.project.blog.domain.Person;
 import cs544.project.blog.repository.CommentRepository;
 
 @Service
@@ -38,5 +39,9 @@ public class CommentService {
 	
 	public boolean exists(long id){
 		return commentRepository.exists(id);
+	}
+	
+	public List<Comment> getByPerson(Person person){
+		return commentRepository.getCommentByPerson(person);
 	}
 }

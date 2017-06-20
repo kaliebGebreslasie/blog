@@ -16,10 +16,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+		http.csrf().disable();
+		http.authorizeRequests().anyRequest().permitAll();
+       /* http
         
             .authorizeRequests()
-                .antMatchers("/","/resources/static/**","/assets/**", "/home", "/index","/resources/**", "/registration","/login","/api/**").permitAll()
+                .antMatchers("/","/resources/static/**","/assets/**", "/home", "/index","/resources/**", "/registration","/login","/api/**","/addPerson").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -34,8 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             	.and()
             .logout()
             	.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            	.logoutSuccessUrl("/login")
-                .permitAll();
+            	.deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true)
+            	.logoutSuccessUrl("/index")
+                .permitAll();*/
              //   .and().csrf().disable();
     }
 
@@ -43,11 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		/*auth.inMemoryAuthentication().withUser("k@gmail.com").password("k").roles("ADMIN");
 		auth.inMemoryAuthentication().withUser("h@gmail.com").password("h").roles("USER");*/
-		auth.jdbcAuthentication().dataSource(dataSource)
+		/*auth.jdbcAuthentication().dataSource(dataSource)
 		.usersByUsernameQuery(
 			"select username,password, enabled from users where username=?")
 		.authoritiesByUsernameQuery(
-			"select username, role from user_roles where username=?");
+			"select username, role from user_roles where username=?");*/
 		
 	}
 }

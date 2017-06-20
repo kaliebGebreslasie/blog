@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
+import cs544.project.blog.domain.Person;
 import cs544.project.blog.domain.Post;
 import cs544.project.blog.repository.PostRepository;
 
@@ -37,5 +38,8 @@ public class PostService {
 	
 	public boolean exists(long id){
 		return postRepository.exists(id);
+	}
+	public List< Post> getByPerson(Person person){
+		return postRepository.findPostByPerson(person);
 	}
 }

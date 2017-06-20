@@ -1,9 +1,12 @@
 package cs544.project.blog.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Post {
@@ -17,22 +20,26 @@ public class Post {
 	private Date datecreated;
 	@Temporal(TemporalType.DATE)
 	private Date dateupdated;
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-	private List<Comment> comments;
+	private String summary;
+	
+	@OneToMany(mappedBy="post", cascade = CascadeType.ALL)
+	private List<Comment> comments=new ArrayList<>();
 	@ManyToOne
+	@JsonIgnore
 	private Person person;
 	
 	public Post() {
 	}
 
-	public Post(long id, String title, String content, Date datecreated, Date dateupdated, List<Comment> comments,
+	public Post(long id, String title, String content, Date datecreated, Date dateupdated,String summary,List<Comment> comments,
 			Person person) {
 		super();
-		this.id = id;
+		
 		this.title = title;
 		this.content = content;
 		this.datecreated = datecreated;
 		this.dateupdated = dateupdated;
+		this.summary=summary;
 		this.comments = comments;
 		this.person = person;
 	}
@@ -77,6 +84,15 @@ public class Post {
 		this.dateupdated = dateupdated;
 	}
 
+	
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -93,4 +109,7 @@ public class Post {
 		this.person = person;
 	}
 	
+	public void addComment(Comment comment){
+		this.comments.add(comment);
+	}
 }
