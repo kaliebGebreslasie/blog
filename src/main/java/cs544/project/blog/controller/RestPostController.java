@@ -92,7 +92,7 @@ public class RestPostController {
 
 	@PostMapping(value="/delete/{id}")
 	public void deletePost(@PathVariable long id){
-		postService.delete(id);
+		postService.delete(postService.getById(id));
 	}
 }
 
