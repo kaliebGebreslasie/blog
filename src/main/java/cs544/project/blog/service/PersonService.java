@@ -7,6 +7,7 @@ import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
 import cs544.project.blog.domain.Person;
+import cs544.project.blog.domain.Post;
 import cs544.project.blog.domain.User;
 import cs544.project.blog.repository.PersonRepository;
 
@@ -41,6 +42,11 @@ public class PersonService {
 	}
 	
 	public Person getByUser(User user ){
-	return personRepository.findPostByUser(user);
+	return personRepository.findPersonByUser(user);
 	}
+	
+	public Person getByPost(Post post ){
+		return personRepository.findPersonByPosts(post);
+		}
+	
 }

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Person {
@@ -11,14 +15,19 @@ public class Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	private String name;
+	
 	private String email;
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
 	private List<Comment> comments=new ArrayList<>();
-	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+	
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	
 	private List<Post> posts=new ArrayList<>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	
 	private User user;
 	
 	public Person() {

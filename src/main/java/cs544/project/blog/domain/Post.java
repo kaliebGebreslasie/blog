@@ -5,6 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.SafeHtml;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,7 +19,9 @@ public class Post {
 	private long id;
 	private String title;
 	@Lob
+
 	private String content;
+
 	@Temporal(TemporalType.DATE)
 	private Date datecreated;
 	@Temporal(TemporalType.DATE)
@@ -23,9 +29,11 @@ public class Post {
 	private String summary;
 	
 	@OneToMany(mappedBy="post", cascade = CascadeType.ALL)
+
 	private List<Comment> comments=new ArrayList<>();
+	
 	@ManyToOne
-	@JsonIgnore
+
 	private Person person;
 	
 	public Post() {
@@ -100,7 +108,7 @@ public class Post {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-
+	@JsonIgnore
 	public Person getPerson() {
 		return person;
 	}

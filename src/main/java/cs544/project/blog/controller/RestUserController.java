@@ -1,7 +1,6 @@
 package cs544.project.blog.controller;
 
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cs544.project.blog.domain.Person;
 import cs544.project.blog.domain.Post;
+import cs544.project.blog.domain.User;
+import cs544.project.blog.domain.UserRole;
 import cs544.project.blog.service.PersonService;
 import cs544.project.blog.service.PostService;
 import cs544.project.blog.service.UserService;
@@ -29,55 +30,34 @@ import cs544.project.blog.service.UserService;
 
 
 
+
 @RestController
-@RequestMapping("/api/post")
-public class RestPostController {
-	@Autowired
-	private PostService postService;
+@RequestMapping("/api/user")
+public class RestUserController {
+
 	
-	@Autowired
-	private PersonService personService;
 	
 	@Autowired
 	private UserService userService;
 	@GetMapping(value="")
-	public List<Post> getAll(){
-		return postService.getAllOrderByDatecreated();
+	public List<User> getAll(){
+		return userService.getAll();
 	}
 	
 	
-	@GetMapping("/{id}")
-	public Post readPost(@PathVariable long id){
+	@GetMapping("/{username}")
+	public User getUser(@PathVariable String username){
 		
-		return postService.getById(id);
+		return userService.getByUsername(username);
 	}
 	
-	@GetMapping(value="/person/{id}")
+	/*@GetMapping(value="/person/{id}")
 	public List<Post> findByPerson(@PathVariable long id){
 		Person person = personService.getById(id);
-	return postService.getByPerson(person);
-	}
+	return personService.getByPerson(person);
+	}*/
 	
-	@PostMapping(value="/{username}")
-	public Post savePost(@RequestBody Post post,@PathVariable String username){
-		Person person=personService.getByUser(userService.getByUsername(username));
-		post.setPerson(person);
-		return postService.save(post);
-	}
 	
-	@PutMapping(value="/update/{id}")
-	public Post updatePost(@PathVariable long id, @RequestBody Post post){
-		Post oldPost=postService.getById(id);
-		post.setPerson(oldPost.getPerson());
-		
-	return postService.save(post);
-	}
-
-	@DeleteMapping(value="/delete/{id}")
-	public void deletePost(@PathVariable long id){
-		
-		postService.delete(postService.getById(id));
-	}
 }
 
 

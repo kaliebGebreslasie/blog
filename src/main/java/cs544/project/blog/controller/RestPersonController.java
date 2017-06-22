@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,61 +25,74 @@ import cs544.project.blog.domain.User;
 import cs544.project.blog.domain.UserRole;
 import cs544.project.blog.service.PersonService;
 import cs544.project.blog.service.PostService;
-
-
-
-
+import cs544.project.blog.service.UserService;
 
 @RestController
 @RequestMapping("/api/person")
 public class RestPersonController {
 
-	
-	
 	@Autowired
 	private PersonService personService;
-	@GetMapping(value="")
-	public List<Person> getAll(){
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private PostService postService;
+	
+	@GetMapping(value = "")
+	public List<Person> getAll() {
 		return personService.getAll();
 	}
-	
-	
+
 	@GetMapping("/{id}")
-	public Person getPerson(@PathVariable long id){
-		
+	public Person getPerson(@PathVariable long id) {
+
 		return personService.getById(id);
 	}
-	
-	/*@GetMapping(value="/person/{id}")
-	public List<Post> findByPerson(@PathVariable long id){
-		Person person = personService.getById(id);
-	return personService.getByPerson(person);
-	}*/
-	
-	@PostMapping(value="")
-	public Person savePerson(@RequestBody Person person){
-		System.out.println("userssssss"+person.getUser().getUsername());
-	//User	 user=new User("w@gmai.com", "w", true);
-	//	User user=person.getUser();
-		//user.addUserRoles(new UserRole("ROLE_USER"));
-		
-		// person=new Person("www","w@gmai.com",null,null,user);
-	return	personService.save(person);
+
+	@GetMapping("/user/{username}")
+	public Person getPersonByUser(@PathVariable String username){
+		User user=userService.getByUsername(username);
+		return personService.getByUser(user);
 	}
 	
-	@PutMapping(value="/update/{id}")
-	public Person updatePerson(@PathVariable long id, @RequestBody Person person){
-		
-		Person oldPerson = personService.getById(id);
-		oldPerson=person;
-		oldPerson.setId(id);
-	return personService.save(oldPerson);
+	@GetMapping("/post/{id}")
+	public Person getPersonByPost(@PathVariable long id){
+		Post post=postService.getById(id);
+		return personService.getByPost(post);
 	}
 
-	@PostMapping(value="/delete/{id}")
-	public void deletePerson(@PathVariable long id){
+	/*
+	 * @GetMapping(value="/person/{id}") public List<Post>
+	 * findByPerson(@PathVariable long id){ Person person =
+	 * personService.getById(id); return personService.getByPerson(person); }
+	 */
+
+	@PostMapping(value = "")
+	public Person savePerson(@RequestBody Person person) {
+		System.out.println("userssssss" + person.getUser().getUsername());
+		// User user=new User("w@gmai.com", "w", true);
+		// User user=person.getUser();
+		// user.addUserRoles(new UserRole("ROLE_USER"));
+
+		// person=new Person("www","w@gmai.com",null,null,user);
+		return personService.save(person);
+	}
+
+	@PutMapping(value = "/update/{id}")
+	public Person updatePerson(@PathVariable long id, @RequestBody Person person) {
+
+		Person oldPerson = personService.getById(id);
+		person.setPosts(oldPerson.getPosts());
+
+		System.out.println("title resful" + person.getId());
+		return personService.save(person);
+	}
+
+	@DeleteMapping(value = "/delete/{id}")
+	public void deletePerson(@PathVariable long id) {
+
 		personService.delete(id);
 	}
 }
-
-

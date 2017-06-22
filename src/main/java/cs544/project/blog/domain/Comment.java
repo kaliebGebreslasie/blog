@@ -3,6 +3,9 @@ package cs544.project.blog.domain;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.SafeHtml;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,6 +15,7 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Lob
+	
 	private String content;
 	@Temporal(TemporalType.DATE)
 	private Date datecreated;
@@ -19,9 +23,11 @@ public class Comment {
 	private Date dateupdated;
 	@ManyToOne
 	@JsonIgnore
+	
 	private Post post;
 	@JsonIgnore
 	@ManyToOne
+	
 	private Person person;
 	
 	public Comment() {
