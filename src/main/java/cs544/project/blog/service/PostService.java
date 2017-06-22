@@ -29,12 +29,17 @@ public class PostService {
 		return postRepository.findAll();
 	}
 	
+	public List<Post> getAllOrderByDatecreated(){
+		return postRepository.findByOrderByDatecreatedDesc();
+	}
+	
 	public Post save(Post post){
 		return postRepository.save(post);
 	}
 	
-	public void delete(long id){
-		postRepository.delete(id);
+	public void delete(Post post){
+		postRepository.delete(post);
+		//postRepository.delete(id);
 	}
 	
 	public long count(){
