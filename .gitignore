@@ -1,10 +1,18 @@
-<<<<<<< HEAD
-/.settings
-/.project
-/.springBeans
-/.classpath
-/target
-=======
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -14,7 +22,3 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-
-# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
-!/.mvn/wrapper/maven-wrapper.jar
->>>>>>> 7b4d2de646e2f83190040a2f30fff99e8557b67b

@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cs544.project.blog.domain.Comment;
+import cs544.project.blog.domain.Like;
+import cs544.project.blog.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +42,10 @@ public class RestPostController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private LikeService likeService;
+
 	@GetMapping(value="")
 	public List<Post> getAll(){
 		return postService.getAll();
@@ -47,14 +54,23 @@ public class RestPostController {
 	
 	@GetMapping("/{id}")
 	public Post readPost(@PathVariable long id){
-		
-		return postService.getById(id);
+		Post post = postService.getById(id);
+		for (Comment comment : post.getComments()) {
+			comment.getPerson().setComments(null);
+		}
+		return post;
 	}
 	
 	@GetMapping(value="/person/{id}")
 	public List<Post> findByPerson(@PathVariable long id){
 		Person person = personService.getById(id);
-	return postService.getByPerson(person);
+		return postService.getByPerson(person);
+	}
+
+	@GetMapping("/like/{id}")
+	public Post getByLike(@PathVariable long id){
+		Like like = likeService.getById(id);
+		return postService.getByLike(like);
 	}
 	
 	@PostMapping(value="/{username}")
@@ -71,7 +87,7 @@ public class RestPostController {
 		oldPost=post;
 		oldPost.setId(id);
 		oldPost.setDateupdated(new Date());
-	return postService.save(oldPost);
+		return postService.save(oldPost);
 	}
 
 	@PostMapping(value="/delete/{id}")

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cs544.project.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,19 +27,17 @@ import cs544.project.blog.service.CommentService;
 import cs544.project.blog.service.PersonService;
 import cs544.project.blog.service.PostService;
 
-
-
-
-
 @RestController
 @RequestMapping("/api/comment")
 public class RestCommentController {
-	//@Autowired
-//	private PostService postService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private CommentService commentService;
 	@Autowired
 	private PersonService personService;
+	@Autowired
+	private PostService postService;
 	
 	@GetMapping(value="")
 	public List<Comment> getAll(){
@@ -55,13 +54,28 @@ public class RestCommentController {
 	@GetMapping(value="/person/{id}")
 	public List<Comment> findByPerson(@PathVariable long id){
 		Person person = personService.getById(id);
-	return commentService.getByPerson(person);
+		return commentService.getByPerson(person);
 	}
 	
-	@PostMapping(value="")
+	@PostMapping(value="/addComment/{id}")
 	public Comment saveComment(@RequestBody Comment comment){
 		
 		return commentService.save(comment);
+	}
+
+	@PostMapping(value="/{username}/{postid}")
+	public Post saveComment(@RequestBody Comment comment,@PathVariable String username, @PathVariable long postid){
+		Person person=personService.getByUser(userService.getByUsername(username));
+
+		Post post = postService.getById(postid);
+		//System.out.println(post.getId());
+		//comment.setPost(post);
+		comment.setId(0);
+		comment.setPost(post);
+		comment.setPerson(person);
+		comment.setDatecreated(new Date());
+		post.addComment(comment);
+		return postService.save(post);
 	}
 	
 	/*@PutMapping(value="/update/{id}")

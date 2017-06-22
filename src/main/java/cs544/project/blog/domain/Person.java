@@ -1,11 +1,15 @@
 package cs544.project.blog.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
+
 public class Person {
 	
 	@Id
@@ -17,6 +21,8 @@ public class Person {
 	private List<Comment> comments=new ArrayList<>();
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
 	private List<Post> posts=new ArrayList<>();
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+	private List<Like> likes=new ArrayList<>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private User user;
@@ -73,9 +79,20 @@ public class Person {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+
 	public void addPost(Post post){
 		this.posts.add(post);
 	}
+
+	public List<Like> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Like> likes) {
+		this.likes = likes;
+	}
+
+	public void addLike(Like like) { this.likes.add(like); }
 
 	public User getUser() {
 		return user;

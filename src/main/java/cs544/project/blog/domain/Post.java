@@ -24,6 +24,8 @@ public class Post {
 	
 	@OneToMany(mappedBy="post", cascade = CascadeType.ALL)
 	private List<Comment> comments=new ArrayList<>();
+	@OneToMany(mappedBy="post", cascade = CascadeType.ALL)
+	private List<Like> likes=new ArrayList<>();
 	@ManyToOne
 	@JsonIgnore
 	private Person person;
@@ -84,7 +86,6 @@ public class Post {
 		this.dateupdated = dateupdated;
 	}
 
-	
 	public String getSummary() {
 		return summary;
 	}
@@ -112,4 +113,14 @@ public class Post {
 	public void addComment(Comment comment){
 		this.comments.add(comment);
 	}
+
+	public List<Like> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Like> likes) {
+		this.likes = likes;
+	}
+
+	public void addLike(Like like) { this.likes.add(like); }
 }

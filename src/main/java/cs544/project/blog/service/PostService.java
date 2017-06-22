@@ -2,6 +2,8 @@ package cs544.project.blog.service;
 
 import java.util.List;
 
+import cs544.project.blog.domain.Like;
+import cs544.project.blog.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -15,6 +17,9 @@ import cs544.project.blog.repository.PostRepository;
 public class PostService {
 	@Autowired
 	private PostRepository postRepository;
+
+	@Autowired
+	private PersonRepository personRepository;
 	
 	public Post getById(long id){
 		return postRepository.findOne(id);
@@ -39,7 +44,9 @@ public class PostService {
 	public boolean exists(long id){
 		return postRepository.exists(id);
 	}
-	public List< Post> getByPerson(Person person){
+	public List<Post> getByPerson(Person person){
 		return postRepository.findPostByPerson(person);
 	}
+
+	public Post getByLike(Like like) { return postRepository.findDistinctPostByLikesEquals(like); }
 }

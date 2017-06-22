@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class Comment {
@@ -17,8 +20,8 @@ public class Comment {
 	private Date datecreated;
 	@Temporal(TemporalType.DATE)
 	private Date dateupdated;
-	@ManyToOne
 	@JsonIgnore
+	@ManyToOne
 	private Post post;
 	@JsonIgnore
 	@ManyToOne
